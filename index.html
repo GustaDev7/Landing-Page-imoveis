@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Profissional para Imóveis com Tour Virtual 360°</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .tour-container {
+            perspective: 1000px;
+        }
+
+        .tour-device {
+            transform-style: preserve-3d;
+            transform: rotateY(-15deg);
+        }
+
+        /* Estilos do menu mobile */
+        .mobile-menu-container {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(-100%);
+        }
+
+        .mobile-menu-container.active {
+            transform: translateX(0);
+        }
+
+        .whatsapp-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            font-family: Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif;
+        }
+
+        .whatsapp-button {
+            display: block;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25D366;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-button:focus {
+            outline: none;
+        }
+
+        .whatsapp-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 35px;
+            height: 35px;
+        }
+
+        .whatsapp-tooltip {
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fff;
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .whatsapp-tooltip:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -5px;
+            transform: translateY(-50%);
+            border-left: 5px solid #fff;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+        }
+
+        .whatsapp-button:hover .whatsapp-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4444;
+            color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .whatsapp-animation {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+
+        /* Responsivo */
+
+        @media (max-width: 768px) {
+
+            .whatsapp-widget {
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .whatsapp-button {
+                width: 55px;
+                height: 55px;
+            }
+
+            .whatsapp-icon {
+                width: 30px;
+                height: 30px;
+            }
+
+            .whatsapp-tooltip {
+                right: 65px;
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased text-gray-800">
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-semibold text-gray-900">Imóvel360</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#solucao" class="text-gray-700 hover:text-gray-900">Solução</a>
+                    <a href="#servico" class="text-gray-700 hover:text-gray-900">Serviço</a>
+                    <a href="#tour" class="text-gray-700 hover:text-gray-900">Tour 360°</a>
+                    <a href="https://wa.me/556196256505?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20uma%20proposta%20para%20o%20servi%C3%A7o%20de%20site%20para%20im%C3%B3veis."
+                        target="_blank"
+                        class="px-4 py-2 bg-[#580D94] text-white rounded-md hover:bg-[#450A72] transition duration-300">
+                        Solicitar Proposta
+                    </a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-open-btn" class="text-gray-500 hover:text-gray-900">
+                        <i data-feather="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mobile-menu"
+        class="mobile-menu-container fixed inset-0 z-[9999] bg-white hidden flex-col items-center justify-center p-8">
+        <button id="mobile-menu-close-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-900">
+            <i data-feather="x" class="w-8 h-8"></i>
+        </button>
+        <div class="space-y-6 text-center">
+            <a href="#solucao" class="text-2xl font-medium text-gray-800 hover:text-[#580D94] transition block"
+                data-nav-link>Solução</a>
+            <a href="#servico" class="text-2xl font-medium text-gray-800 hover:text-[#580D94] transition block"
+                data-nav-link>Serviço</a>
+            <a href="#tour" class="text-2xl font-medium text-gray-800 hover:text-[#580D94] transition block"
+                data-nav-link>Tour 360°</a>
+            <a href="https://wa.me/556196256505?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20uma%20proposta%20para%20o%20servi%C3%A7o%20de%20site%20para%20im%C3%B3veis."
+                target="_blank"
+                class="inline-block px-6 py-3 bg-[#580D94] text-white rounded-md hover:bg-[#450A72] transition duration-300 mt-4"
+                data-nav-link>
+                Solicitar Proposta
+            </a>
+        </div>
+    </div>
+
+    <section class="hero-gradient py-20 md:py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:flex items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0" data-aos="fade-right">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
+                        Cansado de perder vendas por uma apresentação desorganizada do seu imóvel?
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Transforme o interesse de seus clientes em propostas reais com um site exclusivo, profissional e
+                        com um tour virtual 360° que vende por você.
+                    </p>
+                    <a href="https://wa.me/556196256505?text=Ol%C3%A1!%20Tenho%20interesse%20em%20apresentar%20meu%20im%C3%B3vel%20com%20elegância%20e%20gostaria%20de%20saber%20mais."
+                        target="_blank"
+                        class="inline-block px-8 py-4 bg-[#580D94] text-white font-medium rounded-md hover:bg-[#450A72] transition duration-300 shadow-lg">
+                        Quero apresentar meu imóvel com elegância
+                    </a>
+                </div>
+                <div class="md:w-1/2" data-aos="fade-left">
+                    <div class="relative">
+                        <img src="http://static.photos/estate/1200x630/1" alt="Imóvel de luxo"
+                            class="rounded-lg shadow-2xl">
+                        <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-[#EBE3F4] rounded-full flex items-center justify-center mr-3">
+                                    <i data-feather="rotate-ccw" class="text-[#580D94]"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium">Tour Virtual 360°</p>
+                                    <p class="text-sm text-gray-500">Experimente agora</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="solucao" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Enviar fotos e vídeos por WhatsApp parece amador e confuso?
+                </h2>
+                <div class="max-w-3xl mx-auto">
+                    <p class="text-xl text-gray-600">
+                        Você se esforça para capturar as melhores imagens, grava vídeos detalhados, mas na hora de
+                        apresentar tudo a um comprador em potencial, o resultado é uma bagunça de arquivos soltos, links
+                        quebrados e informações perdidas.
+                    </p>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-lg" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-[#F4E3E3] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="message-square" class="text-[#940D0D] w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Mensagens Desorganizadas</h3>
+                    <p class="text-gray-600">Fotos e vídeos se perdem em meio a conversas, dificultando a avaliação do
+                        imóvel.</p>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-lg" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-[#F4F2E3] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="image" class="text-[#948E0D] w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Baixa Qualidade</h3>
+                    <p class="text-gray-600">Compressão de arquivos reduz a qualidade das imagens, prejudicando a
+                        percepção de valor.</p>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-lg" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-[#EBE3F4] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="user-x" class="text-[#580D94] w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Imagem Amadora</h3>
+                    <p class="text-gray-600">A desorganização transmite falta de profissionalismo, afastando clientes
+                        qualificados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:flex items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0" data-aos="fade-right">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        E se você pudesse apresentar seu imóvel em um único lugar, de forma imersiva e luxuosa?
+                    </h2>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Imagine enviar apenas um link para seu cliente e ele ter acesso a uma experiência completa: uma
+                        galeria de fotos em alta resolução, vídeos cinematográficos, todas as informações técnicas
+                        organizadas e, o principal, um tour virtual 360° onde ele pode "caminhar" pelo imóvel como se
+                        estivesse lá.
+                    </p>
+                    <p class="text-xl font-medium text-gray-900">
+                        Essa é a forma de vender imóveis no mercado atual.
+                    </p>
+                </div>
+                <div class="md:w-1/2" data-aos="fade-left">
+                    <div class="tour-container">
+                        <div class="tour-device bg-white p-4 rounded-xl shadow-2xl">
+                            <div class="relative overflow-hidden rounded-lg" style="padding-bottom: 56.25%;">
+                                <img src="http://static.photos/estate/640x360/2" alt="Site de imóvel"
+                                    class="absolute inset-0 w-full h-full object-cover">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div
+                                        class="w-16 h-16 bg-white bg-opacity-80 rounded-full flex items-center justify-center">
+                                        <i data-feather="play" class="text-[#580D94] w-8 h-8"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-semibold">Residencial Samambaia</h4>
+                                    <p class="text-sm text-gray-500">Brasília - DF</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                                        <i data-feather="share-2" class="text-gray-600 w-5 h-5"></i>
+                                    </button>
+                                    <button
+                                        class="w-10 h-10 rounded-full bg-[#580D94] flex items-center justify-center">
+                                        <i data-feather="phone" class="text-white w-5 h-5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servico" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Nós criamos o palco digital perfeito para o seu imóvel brilhar.
+                </h2>
+                <div class="max-w-3xl mx-auto">
+                    <p class="text-xl text-gray-600">
+                        Nosso serviço consiste em desenvolver um site exclusivo e sofisticado para cada imóvel que você
+                        deseja vender. Cuidamos de tudo para que você transmita o máximo de profissionalismo e
+                        elegância.
+                    </p>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="feature-card bg-gray-50 p-8 rounded-lg transition duration-300" data-aos="fade-up"
+                    data-aos-delay="100">
+                    <div class="w-16 h-16 bg-[#EBE3F4] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="layout" class="text-[#580D94] w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Design Sofisticado</h3>
+                    <p class="text-gray-600">Um layout limpo e moderno que valoriza cada detalhe do imóvel.</p>
+                </div>
+                <div class="feature-card bg-gray-50 p-8 rounded-lg transition duration-300" data-aos="fade-up"
+                    data-aos-delay="200">
+                    <div class="w-16 h-16 bg-[#EBE3F4] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="image" class="text-[#580D94] w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Galeria Profissional</h3>
+                    <p class="text-gray-600">Fotos e vídeos organizados de forma intuitiva e atraente.</p>
+                </div>
+                <div class="feature-card bg-gray-50 p-8 rounded-lg transition duration-300" data-aos="fade-up"
+                    data-aos-delay="300">
+                    <div class="w-16 h-16 bg-[#EBE3F4] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="rotate-ccw" class="text-[#580D94] w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Tour Virtual 360°</h3>
+                    <p class="text-gray-600">A ferramenta definitiva para encantar compradores e se destacar.</p>
+                </div>
+                <div class="feature-card bg-gray-50 p-8 rounded-lg transition duration-300" data-aos="fade-up"
+                    data-aos-delay="400">
+                    <div class="w-16 h-16 bg-[#F4E3E3] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="smartphone" class="text-[#940D0D] w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Contato Direto</h3>
+                    <p class="text-gray-600">Formulário e botão de WhatsApp para o cliente falar com você facilmente.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tour" class="py-20 bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:flex items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0" data-aos="fade-right">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                        Deixe o comprador passear pelo imóvel antes mesmo de visitá-lo.
+                    </h2>
+                    <p class="text-xl text-gray-300 mb-8">
+                        O tour virtual 360° não é apenas um recurso tecnológico, é uma máquina de qualificar clientes.
+                        Ele filtra os curiosos e traz até você apenas os compradores genuinamente interessados, que já
+                        se apaixonaram pelo espaço.
+                    </p>
+                    <p class="text-xl font-medium">
+                        Aumente a percepção de valor e passe uma imagem de inovação e exclusividade.
+                    </p>
+                </div>
+                <div class="md:w-1/2" data-aos="fade-left">
+                    <div class="relative">
+                        <img src="http://static.photos/technology/640x360/3" alt="Tour Virtual 360°"
+                            class="rounded-lg shadow-2xl">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div
+                                class="w-20 h-20 bg-white bg-opacity-20 backdrop-blur-sm rounded-full flex items-center justify-center border-2 border-white border-opacity-30">
+                                <i data-feather="maximize" class="w-10 h-10"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato" class="py-20 bg-white text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900" data-aos="fade-up">
+                Pronto para elevar o nível da sua apresentação e vender mais rápido?
+            </h2>
+            <p class="text-xl mb-8 max-w-3xl mx-auto text-gray-600" data-aos="fade-up" data-aos-delay="100">
+                Fale conosco hoje mesmo e descubra como podemos criar um site impressionante para o seu imóvel.
+            </p>
+            <a href="https://wa.me/556196256505?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20uma%20proposta%20para%20o%20servi%C3%A7o%20de%20site%20para%20im%C3%B3veis%20com%20tour%20virtual."
+                target="_blank"
+                class="inline-block px-8 py-4 bg-[#580D94] text-white font-medium rounded-md hover:bg-gray-100 transition duration-300 shadow-lg"
+                data-aos="fade-up" data-aos-delay="200">
+                Solicitar uma proposta agora
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Imóvel360</h3>
+                    <p class="text-gray-400">
+                        A solução profissional para apresentação de imóveis com tour virtual 360°.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#solucao" class="text-gray-400 hover:text-white">Solução</a></li>
+                        <li><a href="#servico" class="text-gray-400 hover:text-white">Serviço</a></li>
+                        <li><a href="#tour" class="text-gray-400 hover:text-white">Tour 360°</a></li>
+                        <li><a href="#contato" class="text-gray-400 hover:text-white">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Contato</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400">
+                            <i data-feather="mail" class="mr-2 w-5 h-5"></i> wbnhii@gmail.com
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i data-feather="phone" class="mr-2 w-5 h-5"></i> (61) 99625-6505
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Imóvel360. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="whatsapp-widget">
+        <a href="https://wa.me/556196256505?text=Ol%C3%A1!%20Vi%20seu%20site%20e%20gostaria%20de%20saber%20mais%20sobre%20as%20apresenta%C3%A7%C3%B5es%20de%20im%C3%B3veis."
+            target="_blank" class="whatsapp-button whatsapp-animation"
+            aria-label="Fale conosco para criar o site do seu imóvel">
+            <svg class="whatsapp-icon" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="19.5" cy="19.5" r="19.5" fill="#25D366" />
+                <path
+                    d="M12.9821 10.1115C12.7029 10.7767 11.5862 11.442 10.7486 11.575C10.1902 11.7081 9.35269 11.8411 6.84003 10.7767C3.48981 9.44628 1.39593 6.25317 1.25634 6.12012C1.11674 5.85403 2.13001e-06 4.39053 2.13001e-06 2.92702C2.13001e-06 1.46351 0.83755 0.665231 1.11673 0.399139C1.39592 0.133046 1.8147 1.01506e-06 2.23348 1.01506e-06C2.37307 1.01506e-06 2.51267 1.01506e-06 2.65226 1.01506e-06C2.93144 1.01506e-06 3.21063 -2.02219e-06 3.35022 0.532183C3.62941 1.19741 4.32736 2.66092 4.32736 2.79397C4.46696 2.92702 4.46696 3.19311 4.32736 3.32616C4.18777 3.59225 4.18777 3.59224 3.90858 3.85834C3.76899 3.99138 3.6294 4.12443 3.48981 4.39052C3.35022 4.52357 3.21063 4.78966 3.35022 5.05576C3.48981 5.32185 4.18777 6.38622 5.16491 7.18449C6.42125 8.24886 7.39839 8.51496 7.81717 8.78105C8.09636 8.91409 8.37554 8.9141 8.65472 8.648C8.93391 8.38191 9.21309 7.98277 9.49228 7.58363C9.77146 7.31754 10.0507 7.1845 10.3298 7.31754C10.609 7.45059 12.2841 8.11582 12.5633 8.38191C12.8425 8.51496 13.1217 8.648 13.1217 8.78105C13.1217 8.78105 13.1217 9.44628 12.9821 10.1115Z"
+                    transform="translate(12.9597 12.9597)" fill="#FAFAFA" />
+                <path
+                    d="M0.196998 23.295L0.131434 23.4862L0.323216 23.4223L5.52771 21.6875C7.4273 22.8471 9.47325 23.4274 11.6637 23.4274C18.134 23.4274 23.4274 18.134 23.4274 11.6637C23.4274 5.19344 18.134 -0.1 11.6637 -0.1C5.19344 -0.1 -0.1 5.19344 -0.1 11.6637C-0.1 13.9996 0.624492 16.3352 1.93021 18.2398L0.196998 23.295ZM5.87658 19.8847L5.84025 19.8665L5.80154 19.8788L2.78138 20.8398L3.73978 17.9646L3.75932 17.906L3.71562 17.8623L3.43104 17.5777C2.27704 15.8437 1.55796 13.8245 1.55796 11.6637C1.55796 6.03288 6.03288 1.55796 11.6637 1.55796C17.2945 1.55796 21.7695 6.03288 21.7695 11.6637C21.7695 17.2945 17.2945 21.7695 11.6637 21.7695C9.64222 21.7695 7.76778 21.1921 6.18227 20.039L6.17557 20.0342L6.16817 20.0305L5.87658 19.8847Z"
+                    transform="translate(7.7758 7.77582)" fill="white" stroke="white" stroke-width="0.2" />
+            </svg>
+            <span class="notification-badge">2</span>
+            <div class="whatsapp-tooltip">Solicite sua proposta</div>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            document.addEventListener('DOMContentLoaded', function () {
+            const whatsappButton = document.querySelector('.whatsapp-button');
+            if (!whatsappButton) return;
+            whatsappButton.addEventListener('click', function () {
+                console.log('WhatsApp button clicked');
+            });
+            setTimeout(function () { whatsappButton.classList.remove('whatsapp-animation'); }, 10000);
+        }); 
+            // Mobile Menu functionality
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuOpenBtn = document.getElementById('mobile-menu-open-btn');
+            const mobileMenuCloseBtn = document.getElementById('mobile-menu-close-btn');
+            const navLinks = document.querySelectorAll('[data-nav-link]');
+
+            if (mobileMenuOpenBtn) {
+                mobileMenuOpenBtn.addEventListener('click', function () {
+                    mobileMenu.classList.remove('hidden');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('active');
+                    }, 10);
+                });
+            }
+
+            if (mobileMenuCloseBtn) {
+                mobileMenuCloseBtn.addEventListener('click', function () {
+                    mobileMenu.classList.remove('active');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                });
+            });
+
+            // AOS and Feather Icons initialization
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            feather.replace();
+        });
+    </script>
+</body>
+
+</html>
