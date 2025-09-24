@@ -24,7 +24,8 @@
             transform-style: preserve-3d;
             transform: rotateY(-15deg);
         }
-        /* Estilos do menu mobile */
+        
+        /* Mobile menu styles */
         .mobile-menu-container {
             transition: transform 0.3s ease-in-out;
             transform: translateX(-100%);
@@ -32,15 +33,18 @@
         .mobile-menu-container.active {
             transform: translateX(0);
         }
-        /* WhatsApp Widget - Limpeza para evitar a barra de rolagem */
+        
+        /* WhatsApp Widget */
         .whatsapp-widget {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            z-index: 9999;
+            z-index: 1000;
         }
         .whatsapp-button {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -49,24 +53,23 @@
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
+            text-decoration: none;
         }
         .whatsapp-button:hover {
             transform: scale(1.1);
             box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
         }
         .whatsapp-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             width: 35px;
             height: 35px;
         }
-        /* Oculta o tooltip e o badge por padrão (para mobile) */
+        
+        /* Tooltip and badge - hidden on mobile by default */
         .whatsapp-tooltip, .notification-badge {
             display: none;
         }
-        /* Exibe o tooltip e o badge apenas em telas maiores */
+        
+        /* Show tooltip and badge on larger screens */
         @media (min-width: 768px) {
             .whatsapp-tooltip, .notification-badge {
                 display: block;
@@ -125,47 +128,56 @@
                 100% { transform: scale(1); }
             }
         }
-        /* Removido o whatsapp-animation para evitar conflitos e bugs */
+        
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .tour-device {
+                transform: none;
+            }
+            .hero-gradient {
+                padding-top: 60px;
+                padding-bottom: 60px;
+            }
+        }
     </style>
 </head>
 <body class="font-sans antialiased text-gray-800">
-    <nav class="bg-white shadow-sm">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm fixed w-full top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <span class="text-xl font-semibold text-gray-900">Imóvel360</span>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#solucao" class="text-gray-700 hover:text-gray-900">Solução</a>
-                    <a href="#servico" class="text-gray-700 hover:text-gray-900">Serviço</a>
-                    <a href="#tour" class="text-gray-700 hover:text-gray-900">Tour 360°</a>
-                    <a href="https://wa.me/556196256505?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20uma%20proposta%20para%20o%20servi%C3%A7o%20de%20site%20para%20im%C3%B3veis."
+                    <a href="#solucao" class="text-gray-700 hover:text-gray-900 transition duration-300">Solução</a>
+                    <a href="#servico" class="text-gray-700 hover:text-gray-900 transition duration-300">Serviço</a>
+                    <a href="#tour" class="text-gray-700 hover:text-gray-900 transition duration-300">Tour 360°</a>
+                    <a href="https://wa.me/556194624993?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20uma%20proposta%20para%20o%20servi%C3%A7o%20de%20site%20para%20im%C3%B3veis."
                        target="_blank"
                        class="px-4 py-2 bg-[#580D94] text-white rounded-md hover:bg-[#450A72] transition duration-300">
                         Solicitar Proposta
                     </a>
                 </div>
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-open-btn" class="text-gray-500 hover:text-gray-900">
-                        <i data-feather="menu"></i>
+                    <button id="mobile-menu-open-btn" class="text-gray-500 hover:text-gray-900 transition duration-300">
+                        <i data-feather="menu" class="w-6 h-6"></i>
                     </button>
                 </div>
             </div>
         </div>
     </nav>
-    <div id="mobile-menu"
-         class="mobile-menu-container fixed inset-0 z-[9999] bg-white hidden flex-col items-center justify-center p-8">
-        <button id="mobile-menu-close-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-900">
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu-container fixed inset-0 z-[9999] bg-white hidden flex-col items-center justify-center p-8">
+        <button id="mobile-menu-close-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-900 transition duration-300">
             <i data-feather="x" class="w-8 h-8"></i>
         </button>
         <div class="space-y-6 text-center">
-            <a href="#solucao" class="text-2xl font-medium text-gray-800 hover:text-[#580D94] transition block"
-               data-nav-link>Solução</a>
-            <a href="#servico" class="text-2xl font-medium text-gray-800 hover:text-[#580D94] transition block"
-               data-nav-link>Serviço</a>
-            <a href="#tour" class="text-2xl font-medium text-gray-800 hover:text-[#580D94] transition block"
-               data-nav-link>Tour 360°</a>
-            <a href="https://wa.me/556196256505?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20uma%20proposta%20para%20o%20servi%C3%A7o%20de%20site%20para%20im%C3%B3veis."
+            <a href="#solucao" class="text-2xl font-medium text-gray-800 hover:text-[#580D94] transition block" data-nav-link>Solução</a>
+            <a href="#servico" class="text-2xl font-medium text-gray-800 hover:text-[#580D94] transition block" data-nav-link>Serviço</a>
+            <a href="#tour" class="text-2xl font-medium text-gray-800 hover:text-[#580D94] transition block" data-nav-link>Tour 360°</a>
+            <a href="https://wa.me/556194624993?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20uma%20proposta%20para%20o%20servi%C3%A7o%20de%20site%20para%20im%C3%B3veis."
                target="_blank"
                class="inline-block px-6 py-3 bg-[#580D94] text-white rounded-md hover:bg-[#450A72] transition duration-300 mt-4"
                data-nav-link>
@@ -173,35 +185,38 @@
             </a>
         </div>
     </div>
-    <section class="hero-gradient py-20 md:py-32">
+
+    <!-- Hero Section -->
+    <section class="hero-gradient pt-24 pb-12 md:pt-32 md:pb-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="md:flex items-center">
+            <div class="md:flex md:items-center md:space-x-12">
                 <div class="md:w-1/2 mb-12 md:mb-0" data-aos="fade-right">
-                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
                         Cansado de perder vendas por uma apresentação desorganizada do seu imóvel?
                     </h1>
-                    <p class="text-xl text-gray-600 mb-8">
+                    <p class="text-lg md:text-xl text-gray-600 mb-8">
                         Transforme o interesse de seus clientes em propostas reais com um site exclusivo, profissional e
                         com um tour virtual 360° que vende por você.
                     </p>
-                    <a href="https://wa.me/556196256505?text=Ol%C3%A1!%20Tenho%20interesse%20em%20apresentar%20meu%20im%C3%B3vel%20com%20eleg%C3%A2ncia%20e%20gostaria%20de%20saber%20mais."
+                    <a href="https://wa.me/556194624993?text=Ol%C3%A1!%20Tenho%20interesse%20em%20apresentar%20meu%20im%C3%B3vel%20com%20eleg%C3%A2ncia%20e%20gostaria%20de%20saber%20mais."
                        target="_blank"
-                       class="inline-block px-8 py-4 bg-[#580D94] text-white font-medium rounded-md hover:bg-[#450A72] transition duration-300 shadow-lg">
+                       class="inline-block px-6 py-3 md:px-8 md:py-4 bg-[#580D94] text-white font-medium rounded-md hover:bg-[#450A72] transition duration-300 shadow-lg text-center">
                         Quero apresentar meu imóvel com elegância
                     </a>
                 </div>
                 <div class="md:w-1/2" data-aos="fade-left">
                     <div class="relative">
-                        <img src="http://static.photos/estate/1200x630/1" alt="Imóvel de luxo"
-                             class="rounded-lg shadow-2xl">
-                        <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop" 
+                             alt="Imóvel de luxo"
+                             class="rounded-lg shadow-2xl w-full">
+                        <div class="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 bg-white p-3 md:p-4 rounded-lg shadow-lg">
                             <div class="flex items-center">
-                                <div class="w-12 h-12 bg-[#EBE3F4] rounded-full flex items-center justify-center mr-3">
-                                    <i data-feather="rotate-ccw" class="text-[#580D94]"></i>
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-[#EBE3F4] rounded-full flex items-center justify-center mr-3">
+                                    <i data-feather="rotate-ccw" class="text-[#580D94] w-5 h-5 md:w-6 md:h-6"></i>
                                 </div>
                                 <div>
-                                    <p class="font-medium">Tour Virtual 360°</p>
-                                    <p class="text-sm text-gray-500">Experimente agora</p>
+                                    <p class="font-medium text-sm md:text-base">Tour Virtual 360°</p>
+                                    <p class="text-xs md:text-sm text-gray-500">Experimente agora</p>
                                 </div>
                             </div>
                         </div>
@@ -210,62 +225,63 @@
             </div>
         </div>
     </section>
-    <section id="solucao" class="py-20 bg-white">
+
+    <!-- Problem Section -->
+    <section id="solucao" class="py-12 md:py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                     Enviar fotos e vídeos por WhatsApp parece amador e confuso?
                 </h2>
                 <div class="max-w-3xl mx-auto">
-                    <p class="text-xl text-gray-600">
+                    <p class="text-lg md:text-xl text-gray-600">
                         Você se esforça para capturar as melhores imagens, grava vídeos detalhados, mas na hora de
                         apresentar tudo a um comprador em potencial, o resultado é uma bagunça de arquivos soltos, links
                         quebrados e informações perdidas.
                     </p>
                 </div>
             </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gray-50 p-8 rounded-lg" data-aos="fade-up" data-aos-delay="100">
-                    <div class="w-16 h-16 bg-[#F4E3E3] rounded-full flex items-center justify-center mb-6">
-                        <i data-feather="message-square" class="text-[#940D0D] w-8 h-8"></i>
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+                <div class="bg-gray-50 p-6 md:p-8 rounded-lg" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-[#F4E3E3] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="message-square" class="text-[#940D0D] w-7 h-7 md:w-8 md:h-8"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Mensagens Desorganizadas</h3>
-                    <p class="text-gray-600">Fotos e vídeos se perdem em meio a conversas, dificultando a avaliação do
-                        imóvel.</p>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3">Mensagens Desorganizadas</h3>
+                    <p class="text-gray-600">Fotos e vídeos se perdem em meio a conversas, dificultando a avaliação do imóvel.</p>
                 </div>
-                <div class="bg-gray-50 p-8 rounded-lg" data-aos="fade-up" data-aos-delay="200">
-                    <div class="w-16 h-16 bg-[#F4F2E3] rounded-full flex items-center justify-center mb-6">
-                        <i data-feather="image" class="text-[#948E0D] w-8 h-8"></i>
+                <div class="bg-gray-50 p-6 md:p-8 rounded-lg" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-[#F4F2E3] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="image" class="text-[#948E0D] w-7 h-7 md:w-8 md:h-8"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Baixa Qualidade</h3>
-                    <p class="text-gray-600">Compressão de arquivos reduz a qualidade das imagens, prejudicando a
-                        percepção de valor.</p>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3">Baixa Qualidade</h3>
+                    <p class="text-gray-600">Compressão de arquivos reduz a qualidade das imagens, prejudicando a percepção de valor.</p>
                 </div>
-                <div class="bg-gray-50 p-8 rounded-lg" data-aos="fade-up" data-aos-delay="300">
-                    <div class="w-16 h-16 bg-[#EBE3F4] rounded-full flex items-center justify-center mb-6">
-                        <i data-feather="user-x" class="text-[#580D94] w-8 h-8"></i>
+                <div class="bg-gray-50 p-6 md:p-8 rounded-lg sm:col-span-2 md:col-span-1" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-[#EBE3F4] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="user-x" class="text-[#580D94] w-7 h-7 md:w-8 md:h-8"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Imagem Amadora</h3>
-                    <p class="text-gray-600">A desorganização transmite falta de profissionalismo, afastando clientes
-                        qualificados.</p>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3">Imagem Amadora</h3>
+                    <p class="text-gray-600">A desorganização transmite falta de profissionalismo, afastando clientes qualificados.</p>
                 </div>
             </div>
         </div>
     </section>
-    <section class="py-20 bg-gray-50">
+
+    <!-- Solution Preview -->
+    <section class="py-12 md:py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="md:flex items-center">
+            <div class="md:flex md:items-center md:space-x-12">
                 <div class="md:w-1/2 mb-12 md:mb-0" data-aos="fade-right">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                         E se você pudesse apresentar seu imóvel em um único lugar, de forma imersiva e luxuosa?
                     </h2>
-                    <p class="text-xl text-gray-600 mb-8">
+                    <p class="text-lg md:text-xl text-gray-600 mb-8">
                         Imagine enviar apenas um link para seu cliente e ele ter acesso a uma experiência completa: uma
                         galeria de fotos em alta resolução, vídeos cinematográficos, todas as informações técnicas
                         organizadas e, o principal, um tour virtual 360° onde ele pode "caminhar" pelo imóvel como se
                         estivesse lá.
                     </p>
-                    <p class="text-xl font-medium text-gray-900">
+                    <p class="text-lg md:text-xl font-medium text-gray-900">
                         Essa é a forma de vender imóveis no mercado atual.
                     </p>
                 </div>
@@ -273,27 +289,26 @@
                     <div class="tour-container">
                         <div class="tour-device bg-white p-4 rounded-xl shadow-2xl">
                             <div class="relative overflow-hidden rounded-lg" style="padding-bottom: 56.25%;">
-                                <img src="http://static.photos/estate/640x360/2" alt="Site de imóvel"
+                                <img src="http://static.photos/estate/640x360/2" 
+                                     alt="Site de imóvel"
                                      class="absolute inset-0 w-full h-full object-cover">
                                 <div class="absolute inset-0 flex items-center justify-center">
-                                    <div
-                                        class="w-16 h-16 bg-white bg-opacity-80 rounded-full flex items-center justify-center">
+                                    <div class="w-16 h-16 bg-white bg-opacity-80 rounded-full flex items-center justify-center">
                                         <i data-feather="play" class="text-[#580D94] w-8 h-8"></i>
                                     </div>
                                 </div>
                             </div>
                             <div class="mt-4 flex justify-between items-center">
                                 <div>
-                                    <h4 class="font-semibold">Residencial Samambaia</h4>
-                                    <p class="text-sm text-gray-500">Brasília - DF</p>
+                                    <h4 class="font-semibold text-sm md:text-base">Residencial Samambaia</h4>
+                                    <p class="text-xs md:text-sm text-gray-500">Brasília - DF</p>
                                 </div>
                                 <div class="flex space-x-2">
-                                    <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                                        <i data-feather="share-2" class="text-gray-600 w-5 h-5"></i>
+                                    <button class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                                        <i data-feather="share-2" class="text-gray-600 w-4 h-4 md:w-5 md:h-5"></i>
                                     </button>
-                                    <button
-                                        class="w-10 h-10 rounded-full bg-[#580D94] flex items-center justify-center">
-                                        <i data-feather="phone" class="text-white w-5 h-5"></i>
+                                    <button class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#580D94] flex items-center justify-center">
+                                        <i data-feather="phone" class="text-white w-4 h-4 md:w-5 md:h-5"></i>
                                     </button>
                                 </div>
                             </div>
@@ -303,81 +318,80 @@
             </div>
         </div>
     </section>
-    <section id="servico" class="py-20 bg-white">
+
+    <!-- Services Section -->
+    <section id="servico" class="py-12 md:py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                     Nós criamos o palco digital perfeito para o seu imóvel brilhar.
                 </h2>
                 <div class="max-w-3xl mx-auto">
-                    <p class="text-xl text-gray-600">
+                    <p class="text-lg md:text-xl text-gray-600">
                         Nosso serviço consiste em desenvolver um site exclusivo e sofisticado para cada imóvel que você
                         deseja vender. Cuidamos de tudo para que você transmita o máximo de profissionalismo e
                         elegância.
                     </p>
                 </div>
             </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="feature-card bg-gray-50 p-8 rounded-lg transition duration-300" data-aos="fade-up"
-                     data-aos-delay="100">
-                    <div class="w-16 h-16 bg-[#EBE3F4] rounded-full flex items-center justify-center mb-6">
-                        <i data-feather="layout" class="text-[#580D94] w-8 h-8"></i>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <div class="feature-card bg-gray-50 p-6 md:p-8 rounded-lg transition duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-[#EBE3F4] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="layout" class="text-[#580D94] w-7 h-7 md:w-8 md:h-8"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Design Sofisticado</h3>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3">Design Sofisticado</h3>
                     <p class="text-gray-600">Um layout limpo e moderno que valoriza cada detalhe do imóvel.</p>
                 </div>
-                <div class="feature-card bg-gray-50 p-8 rounded-lg transition duration-300" data-aos="fade-up"
-                     data-aos-delay="200">
-                    <div class="w-16 h-16 bg-[#EBE3F4] rounded-full flex items-center justify-center mb-6">
-                        <i data-feather="image" class="text-[#580D94] w-8 h-8"></i>
+                <div class="feature-card bg-gray-50 p-6 md:p-8 rounded-lg transition duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-[#EBE3F4] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="image" class="text-[#580D94] w-7 h-7 md:w-8 md:h-8"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Galeria Profissional</h3>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3">Galeria Profissional</h3>
                     <p class="text-gray-600">Fotos e vídeos organizados de forma intuitiva e atraente.</p>
                 </div>
-                <div class="feature-card bg-gray-50 p-8 rounded-lg transition duration-300" data-aos="fade-up"
-                     data-aos-delay="300">
-                    <div class="w-16 h-16 bg-[#EBE3F4] rounded-full flex items-center justify-center mb-6">
-                        <i data-feather="rotate-ccw" class="text-[#580D94] w-8 h-8"></i>
+                <div class="feature-card bg-gray-50 p-6 md:p-8 rounded-lg transition duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-[#EBE3F4] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="rotate-ccw" class="text-[#580D94] w-7 h-7 md:w-8 md:h-8"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Tour Virtual 360°</h3>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3">Tour Virtual 360°</h3>
                     <p class="text-gray-600">A ferramenta definitiva para encantar compradores e se destacar.</p>
                 </div>
-                <div class="feature-card bg-gray-50 p-8 rounded-lg transition duration-300" data-aos="fade-up"
-                     data-aos-delay="400">
-                    <div class="w-16 h-16 bg-[#F4E3E3] rounded-full flex items-center justify-center mb-6">
-                        <i data-feather="smartphone" class="text-[#940D0D] w-8 h-8"></i>
+                <div class="feature-card bg-gray-50 p-6 md:p-8 rounded-lg transition duration-300" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-[#F4E3E3] rounded-full flex items-center justify-center mb-6">
+                        <i data-feather="smartphone" class="text-[#940D0D] w-7 h-7 md:w-8 md:h-8"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Contato Direto</h3>
-                    <p class="text-gray-600">Formulário e botão de WhatsApp para o cliente falar com você facilmente.
-                    </p>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3">Contato Direto</h3>
+                    <p class="text-gray-600">Formulário e botão de WhatsApp para o cliente falar com você facilmente.</p>
                 </div>
             </div>
         </div>
     </section>
-    <section id="tour" class="py-20 bg-gray-900 text-white">
+
+    <!-- Tour 360 Section -->
+    <section id="tour" class="py-12 md:py-20 bg-gray-900 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="md:flex items-center">
+            <div class="md:flex md:items-center md:space-x-12">
                 <div class="md:w-1/2 mb-12 md:mb-0" data-aos="fade-right">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
                         Deixe o comprador passear pelo imóvel antes mesmo de visitá-lo.
                     </h2>
-                    <p class="text-xl text-gray-300 mb-8">
+                    <p class="text-lg md:text-xl text-gray-300 mb-8">
                         O tour virtual 360° não é apenas um recurso tecnológico, é uma máquina de qualificar clientes.
                         Ele filtra os curiosos e traz até você apenas os compradores genuinamente interessados, que já
                         se apaixonaram pelo espaço.
                     </p>
-                    <p class="text-xl font-medium">
+                    <p class="text-lg md:text-xl font-medium">
                         Aumente a percepção de valor e passe uma imagem de inovação e exclusividade.
                     </p>
                 </div>
                 <div class="md:w-1/2" data-aos="fade-left">
                     <div class="relative">
-                        <img src="http://static.photos/technology/640x360/3" alt="Tour Virtual 360°"
-                             class="rounded-lg shadow-2xl">
+                        <img src="http://static.photos/technology/640x360/3" 
+                             alt="Tour Virtual 360°"
+                             class="rounded-lg shadow-2xl w-full">
                         <div class="absolute inset-0 flex items-center justify-center">
-                            <div
-                                class="w-20 h-20 bg-white bg-opacity-20 backdrop-blur-sm rounded-full flex items-center justify-center border-2 border-white border-opacity-30">
-                                <i data-feather="maximize" class="w-10 h-10"></i>
+                            <div class="w-16 h-16 md:w-20 md:h-20 bg-white bg-opacity-20 backdrop-blur-sm rounded-full flex items-center justify-center border-2 border-white border-opacity-30">
+                                <i data-feather="maximize" class="w-8 h-8 md:w-10 md:h-10"></i>
                             </div>
                         </div>
                     </div>
@@ -385,26 +399,30 @@
             </div>
         </div>
     </section>
-    <section id="contato" class="py-20 bg-white text-white">
+
+    <!-- CTA Section -->
+    <section id="contato" class="py-12 md:py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900" data-aos="fade-up">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-gray-900" data-aos="fade-up">
                 Pronto para elevar o nível da sua apresentação e vender mais rápido?
             </h2>
-            <p class="text-xl mb-8 max-w-3xl mx-auto text-gray-600" data-aos="fade-up" data-aos-delay="100">
+            <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto text-gray-600" data-aos="fade-up" data-aos-delay="100">
                 Fale conosco hoje mesmo e descubra como podemos criar um site impressionante para o seu imóvel.
             </p>
-            <a href="https://wa.me/556196256505?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20uma%20proposta%20para%20o%20servi%C3%A7o%20de%20site%20para%20im%C3%B3veis%20com%20tour%20virtual."
+            <a href="https://wa.me/556194624993?text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20uma%20proposta%20para%20o%20servi%C3%A7o%20de%20site%20para%20im%C3%B3veis%20com%20tour%20virtual."
                target="_blank"
-               class="inline-block px-8 py-4 bg-[#580D94] text-white font-medium rounded-md hover:bg-gray-100 transition duration-300 shadow-lg"
+               class="inline-block px-6 py-3 md:px-8 md:py-4 bg-[#580D94] text-white font-medium rounded-md hover:bg-[#450A72] transition duration-300 shadow-lg"
                data-aos="fade-up" data-aos-delay="200">
                 Solicitar uma proposta agora
             </a>
         </div>
     </section>
-    <footer class="bg-gray-900 text-white py-12">
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 md:py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div>
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <div class="sm:col-span-2 md:col-span-1">
                     <h3 class="text-xl font-semibold mb-4">Imóvel360</h3>
                     <p class="text-gray-400">
                         A solução profissional para apresentação de imóveis com tour virtual 360°.
@@ -413,31 +431,30 @@
                 <div>
                     <h4 class="font-semibold mb-4">Links</h4>
                     <ul class="space-y-2">
-                        <li><a href="#solucao" class="text-gray-400 hover:text-white">Solução</a></li>
-                        <li><a href="#servico" class="text-gray-400 hover:text-white">Serviço</a></li>
-                        <li><a href="#tour" class="text-gray-400 hover:text-white">Tour 360°</a></li>
-                        <li><a href="#contato" class="text-gray-400 hover:text-white">Contato</a></li>
+                        <li><a href="#solucao" class="text-gray-400 hover:text-white transition duration-300">Solução</a></li>
+                        <li><a href="#servico" class="text-gray-400 hover:text-white transition duration-300">Serviço</a></li>
+                        <li><a href="#tour" class="text-gray-400 hover:text-white transition duration-300">Tour 360°</a></li>
+                        <li><a href="#contato" class="text-gray-400 hover:text-white transition duration-300">Contato</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Contato</h4>
                     <ul class="space-y-2">
                         <li class="flex items-center text-gray-400">
-                            <i data-feather="mail" class="mr-2 w-5 h-5"></i> wbnhii@gmail.com
-                        </li>
-                        <li class="flex items-center text-gray-400">
-                            <i data-feather="phone" class="mr-2 w-5 h-5"></i> (61) 99625-6505
+                            <i data-feather="phone" class="mr-2 w-5 h-5"></i> (61) 99462-4993
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+            <div class="border-t border-gray-800 mt-8 md:mt-12 pt-6 md:pt-8 text-center text-gray-400">
                 <p>&copy; 2025 Imóvel360. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
+
+    <!-- WhatsApp Widget -->
     <div class="whatsapp-widget">
-        <a href="https://wa.me/556196256505?text=Ol%C3%A1!%20Vi%20seu%20site%20e%20gostaria%20de%20saber%20mais%20sobre%20as%20apresenta%C3%A7%C3%B5es%20de%20im%C3%B3veis."
+        <a href="https://wa.me/556194624993?text=Ol%C3%A1!%20Vi%20seu%20site%20e%20gostaria%20de%20saber%20mais%20sobre%20as%20apresenta%C3%A7%C3%B5es%20de%20im%C3%B3veis."
            target="_blank" class="whatsapp-button"
            aria-label="Fale conosco para criar o site do seu imóvel">
             <svg class="whatsapp-icon" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -449,6 +466,8 @@
             <div class="whatsapp-tooltip">Solicite sua proposta</div>
         </a>
     </div>
+
+    <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Mobile Menu functionality
@@ -456,35 +475,65 @@
             const mobileMenuOpenBtn = document.getElementById('mobile-menu-open-btn');
             const mobileMenuCloseBtn = document.getElementById('mobile-menu-close-btn');
             const navLinks = document.querySelectorAll('[data-nav-link]');
+
             if (mobileMenuOpenBtn) {
                 mobileMenuOpenBtn.addEventListener('click', function () {
                     mobileMenu.classList.remove('hidden');
+                    mobileMenu.style.display = 'flex';
                     setTimeout(() => {
                         mobileMenu.classList.add('active');
                     }, 10);
                 });
             }
+
             if (mobileMenuCloseBtn) {
                 mobileMenuCloseBtn.addEventListener('click', function () {
                     mobileMenu.classList.remove('active');
                     setTimeout(() => {
                         mobileMenu.classList.add('hidden');
+                        mobileMenu.style.display = 'none';
                     }, 300);
                 });
             }
+
+            // Close mobile menu when clicking on nav links
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     mobileMenu.classList.remove('active');
                     setTimeout(() => {
                         mobileMenu.classList.add('hidden');
+                        mobileMenu.style.display = 'none';
                     }, 300);
                 });
             });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        const headerOffset = 80;
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Initialize AOS
             AOS.init({
                 duration: 800,
                 easing: 'ease-in-out',
-                once: true
+                once: true,
+                offset: 100
             });
+
+            // Initialize Feather icons
             feather.replace();
         });
     </script>
